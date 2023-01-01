@@ -11,7 +11,9 @@ logging:
   level:
     com.netflix: WARN
     org.springframework.web: WARN
-    com.optimagrowth: DEBUG
+    com.optimagrowth: 
+      - DEBUG
+      - ERROR
       
 
 resilience4j.circuitbreaker:
