@@ -98,19 +98,19 @@ services:
     networks:
       - backend
 
-#  keycloak:
-#    image: jboss/keycloak
-#    restart: always
-#    environment:
-#      KEYCLOAK_VERSION: 6.0.1
-#      KEYCLOAK_USER: admin
-#      KEYCLOAK_PASSWORD: admin
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      backend:
-#        aliases:
-#          - "keycloak"
+  keycloak:
+    image: jboss/keycloak
+    restart: always
+    environment:
+      KEYCLOAK_VERSION: 6.0.1
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    networks:
+      backend:
+        aliases:
+          - "keycloak"
                     
 networks:
   backend:
