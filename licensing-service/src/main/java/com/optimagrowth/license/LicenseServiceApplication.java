@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import com.optimagrowth.license.events.model.OrganizationChangeModel;
 import com.optimagrowth.license.utils.UserContextInterceptor;
+import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -47,6 +49,11 @@ public class LicenseServiceApplication {
 		messageSource.setUseCodeAsDefaultMessage(true);
 		messageSource.setBasenames("messages");
 		return messageSource;
+	}
+
+	@Bean
+	public KeycloakConfigResolver KeycloakConfigResolver() {
+		return new KeycloakSpringBootConfigResolver();
 	}
 
 	@SuppressWarnings("unchecked")

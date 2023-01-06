@@ -76,15 +76,15 @@ public class LicenseService {
 
 		switch (clientType) {
 			case "feign":
-				System.out.println("I am using the feign client");
+				log.info("I am using the feign client");
 				organization = organizationFeignClient.getOrganization(organizationId);
 				break;
 			case "rest":
-				System.out.println("I am using the rest client");
+				log.info("I am using the rest client");
 				organization = organizationRestClient.getOrganization(organizationId);
 				break;
 			case "discovery":
-				System.out.println("I am using the discovery client");
+				log.info("I am using the discovery client");
 				organization = organizationDiscoveryClient.getOrganization(organizationId);
 				break;
 			default:
