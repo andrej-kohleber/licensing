@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Locale;
 
 import com.optimagrowth.license.utils.UserContextInterceptor;
+import org.keycloak.adapters.KeycloakConfigResolver;
+import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -40,6 +42,11 @@ public class LicenseServiceApplication {
 		messageSource.setUseCodeAsDefaultMessage(true);
 		messageSource.setBasenames("messages");
 		return messageSource;
+	}
+
+	@Bean
+	public KeycloakConfigResolver KeycloakConfigResolver() {
+		return new KeycloakSpringBootConfigResolver();
 	}
 
 	@SuppressWarnings("unchecked")
