@@ -4,9 +4,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import com.optimagrowth.license.config.ServiceConfig;
 import com.optimagrowth.license.events.model.OrganizationChangeModel;
 import com.optimagrowth.license.utils.UserContextInterceptor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -18,6 +20,9 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -26,12 +31,31 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @RefreshScope
 @EnableDiscoveryClient
 @EnableFeignClients
-@EnableBinding(Sink.class)
+//@EnableBinding(Sink.class)
 @Log4j2
 public class LicenseServiceApplication {
+	
+	@Autowired
+	private ServiceConfig serviceConfig;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LicenseServiceApplication.class, args);
+	}
+
+	@Bean
+	JedisConnectionFactory jedisConnectionFactory() {
+		String hostname = serviceConfig.getRedisServer();
+		int port = Integer.parseInt(serviceConfig.getRedisPort());
+		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(hostname, port);
+		//redisStandaloneConfiguration.setPassword(RedisPassword.of("yourRedisPasswordIfAny"));
+		return new JedisConnectionFactory(redisStandaloneConfiguration);
+	}
+
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate() {
+		RedisTemplate<String, Object> template = new RedisTemplate<>();
+		template.setConnectionFactory(jedisConnectionFactory());
+		return template;
 	}
 	
 	@Bean
@@ -64,9 +88,9 @@ public class LicenseServiceApplication {
 		return template;
 	}
 	
-	@StreamListener(Sink.INPUT)
-	public void loggerSink(OrganizationChangeModel orgChange) {
-		log.debug("Received {} event for the organization id {}", orgChange.getAction(), orgChange.getOrganizationId());
-		
-	}
+//	@StreamListener(Sink.INPUT)
+//	public void loggerSink(OrganizationChangeModel orgChange) {
+//		log.debug("Received {} event for the organization id {}", orgChange.getAction(), orgChange.getOrganizationId());
+//		
+//	}
 }

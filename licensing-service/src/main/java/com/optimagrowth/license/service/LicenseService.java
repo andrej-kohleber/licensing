@@ -53,7 +53,7 @@ public class LicenseService {
 		if (null == license) {
 			throw new IllegalArgumentException(String.format(messages.getMessage("license.search.error.message", null, null),licenseId, organizationId));
 		}
-		return license.withComment(config.getProperty());
+		return license.withComment(config.getExampleProperty());
 	}
 	
 	public License getLicense(String licenseId, String organizationId, String clientType) {
@@ -61,6 +61,7 @@ public class LicenseService {
 		if (license == null) {
 			throw new IllegalArgumentException(String.format(messages.getMessage("license.search.error.message", null, null), licenseId, organizationId));
 		}
+		log.debug("Try to retrieve organizationId: " + organizationId + " - clientType: " + clientType);
 		Organization organization = retrieveOrganizationInfo(organizationId, clientType);
 		if (organization != null) {
 			license.setOrganizationName(organization.getName());
@@ -68,7 +69,7 @@ public class LicenseService {
 			license.setContactEmail(organization.getContactEmail());
 			license.setContactPhone(organization.getContactPhone());
 		}
-		return license.withComment(config.getProperty());
+		return license.withComment(config.getExampleProperty());
 	}
 
 	private Organization retrieveOrganizationInfo(String organizationId, String clientType) {
@@ -98,13 +99,13 @@ public class LicenseService {
 		license.setLicenseId(UUID.randomUUID().toString());
 		licenseRepository.save(license);
 
-		return license.withComment(config.getProperty());
+		return license.withComment(config.getExampleProperty());
 	}
 
 	public License updateLicense(License license){
 		licenseRepository.save(license);
-
-		return license.withComment(config.getProperty());
+		
+		return license.withComment(config.getExampleProperty());
 	}
 
 	public String deleteLicense(String licenseId){

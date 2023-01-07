@@ -33,7 +33,7 @@ public class LicenseController {
 	@RequestMapping(value="/{licenseId}",method = RequestMethod.GET)
 	public ResponseEntity<License> getLicense(@PathVariable("organizationId") String organizationId,
 											  @PathVariable("licenseId") String licenseId) {
-		License license = licenseService.getLicense(licenseId, organizationId);
+		License license = licenseService.getLicense(licenseId, organizationId, "");
 		license.add(
 				linkTo(methodOn(LicenseController.class).getLicense(organizationId, license.getLicenseId())).withSelfRel(),
 				linkTo(methodOn(LicenseController.class).createLicense(license)).withRel("createLicense"),

@@ -51,15 +51,4 @@ public class License extends RepresentationModel<License> {
 		this.setComment(comment);
 		return this;
 	}
-
-	public static void main(String[] args) {
-		int[] arr = {4, 3, 0, 10, 1, 2, 3, 4};
-		for (int i = 0; i < arr.length - 1; i++) {
-			int min = arr[i];
-			System.out.println(min);
-			for (int j = ++i; j <= arr.length - 1; j++) {
-				
-			}
-		}
-	}
 }
